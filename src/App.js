@@ -5,6 +5,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import ProductOfTheDay from './components/ProductOfTheDay';
 import Chat from './components/Chat';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (

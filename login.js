@@ -55,4 +55,14 @@ function Login() {
         </Form.Group>
 
         <Button variant="primary" onClick={handleSignIn}>
-          Sign
+          Sign In
+        </Button>
+        <Button variant="secondary" onClick={handleSignUp}>
+          Sign Up
+        </Button>
+      </Form>
+    </Container>
+  );
+}
+
+export default Login;

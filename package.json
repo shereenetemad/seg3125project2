@@ -1,0 +1,5 @@
+"homepage": "https://your-username.github.io/glamorize-time",
+"scripts": {
+  "predeploy": "npm run build",
+  "deploy": "gh-pages -d build"
+}

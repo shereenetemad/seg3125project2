@@ -12,8 +12,10 @@ function Login() {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      alert("Successfully signed in!");
     } catch (error) {
       console.error(error);
+      alert("Error signing in");
     }
   };
 
@@ -21,8 +23,10 @@ function Login() {
     e.preventDefault();
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+      alert("Successfully signed up!");
     } catch (error) {
       console.error(error);
+      alert("Error signing up");
     }
   };
 
@@ -51,14 +55,4 @@ function Login() {
         </Form.Group>
 
         <Button variant="primary" onClick={handleSignIn}>
-          Sign In
-        </Button>
-        <Button variant="secondary" onClick={handleSignUp}>
-          Sign Up
-        </Button>
-      </Form>
-    </Container>
-  );
-}
-
-export default Login;
+          Sign

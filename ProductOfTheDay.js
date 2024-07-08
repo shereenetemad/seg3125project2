@@ -1,19 +1,39 @@
-// src/components/ProductOfTheDay.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Card } from 'react-bootstrap';
+import { db } from '../firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 function ProductOfTheDay() {
+  const [product, setProduct] = useState(null);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const docRef = doc(db, "products", "dailyProduct");  // Example document reference
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        setProduct(docSnap.data());
+      } else {
+        console.log("No such document!");
+      }
+    };
+
+    fetchProduct();
+  }, []);
+
   return (
     <Container>
       <h1>Product of the Day</h1>
-      <Card>
-        <Card.Body>
-          <Card.Title>Moroccan Oil Hair Mist</Card.Title>
-          <Card.Text>
-            This hair mist is amazing for making your hair smell great while keeping it silky and not drying it out. It can be purchased at Sephora and ranges from $20-$50, depending on the size.
-          </Card.Text>
-        </Card.Body>
-      </Card>
+      {product ? (
+        <Card>
+          <Card.Body>
+            <Card.Title>{product.name}</Card.Title>
+            <Card.Text>{product.description}</Card.Text>
+          </Card.Body>
+        </Card>
+      ) : (
+        <p>Loading product details...</p>
+      )}
     </Container>
   );
 }

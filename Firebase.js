@@ -1,19 +1,57 @@
-// src/firebase.js
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import React, { useState, useEffect } from 'react';
+import { Container, Form, Button, ListGroup } from 'react-bootstrap';
+import { db } from './Firebase';
+import { collection, addDoc, query, orderBy, onSnapshot } from "firebase/firestore";
 
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
+function Chat() {
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+  useEffect(() => {
+    const q = query(collection(db, "messages"), orderBy("timestamp"));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const msgs = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+      setMessages(msgs);
+    });
 
-export { auth, db };
+    return () => unsubscribe(); // Detach listener when the component unmounts
+  }, []);
+
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    if(newMessage !== "") {
+      await addDoc(collection(db, "messages"), {
+        text: newMessage,
+        timestamp: new Date()
+      });
+      setNewMessage('');
+    }
+  };
+
+  return (
+    <Container>
+      <h1>Chat</h1>
+      <ListGroup>
+        {messages.map((message) => (
+          <ListGroup.Item key={message.id}>{message.text}</ListGroup.Item>
+        ))}
+      </ListGroup>
+      <Form onSubmit={handleSendMessage}>
+        <Form.Group controlId="formBasicMessage">
+          <Form.Label>Message</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Type your message"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+          />
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Send
+        </Button>
+      </Form>
+    </Container>
+  );
+}
+
+export default Chat;

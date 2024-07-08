@@ -1,10 +1,18 @@
-// src/components/Chat.js
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Container, Form, Button, ListGroup } from 'react-bootstrap';
 
 function Chat() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const handleSendMessage = (e) => {
     e.preventDefault();
@@ -19,6 +27,7 @@ function Chat() {
         {messages.map((message, index) => (
           <ListGroup.Item key={index}>{message}</ListGroup.Item>
         ))}
+        <div ref={messagesEndRef} /> {/* Invisible element at the end of the list */}
       </ListGroup>
       <Form onSubmit={handleSendMessage}>
         <Form.Group controlId="formBasicMessage">

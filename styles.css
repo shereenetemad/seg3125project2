@@ -1,18 +1,18 @@
 body {
-  background-color: beige;
-  font-family: 'Arial', sans-serif;
+    background-color: beige;
+    font-family: 'Arial', sans-serif;
 }
 
 h1 {
-  color: lightpink;
+    color: lightpink;
 }
 
 nav a {
-  color: black;
-  margin: 0 10px;
-  text-decoration: none;
+    color: black;
+    margin: 0 10px;
+    text-decoration: none;
 }
 
 .container {
-  padding-top: 20px;
+    padding-top: 20px;
 }

@@ -1,6 +1,5 @@
-// src/App.js
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
 import ProductOfTheDay from './components/ProductOfTheDay';
@@ -12,12 +11,12 @@ function App() {
   return (
     <Router>
       <div>
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/login" component={Login} />
-          <Route path="/product-of-the-day" component={ProductOfTheDay} />
-          <Route path="/chat" component={Chat} />
-        </Switch>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/product-of-the-day" element={<ProductOfTheDay />} />
+          <Route path="/chat" element={<Chat />} />
+        </Routes>
       </div>
     </Router>
   );

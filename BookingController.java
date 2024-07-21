@@ -28,8 +28,19 @@ public class BookingController {
 
     @PostMapping("/booking")
     public String bookingSubmit(@ModelAttribute Booking booking, Model model) {
-        bookingService.saveBooking(booking);
-        model.addAttribute("booking", booking);
-        return "result";
+        // Validation for operating hours (8am-8pm, Monday to Friday)
+        if (bookingService.isValidBooking(booking)) {
+            bookingService.saveBooking(booking);
+            model.addAttribute("booking", booking);
+            return "result";
+        } else {
+            model.addAttribute("error", "Invalid booking time. Please select a time between 8am and 8pm, Monday to Friday.");
+            return "booking";
+        }
+    }
+
+    @GetMapping("/contact")
+    public String contact(Model model) {
+        return "contact";
     }
 }

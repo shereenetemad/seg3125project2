@@ -28,7 +28,6 @@ public class BookingController {
 
     @PostMapping("/booking")
     public String bookingSubmit(@ModelAttribute Booking booking, Model model) {
-        // Validation for operating hours (8am-8pm, Monday to Friday)
         if (bookingService.isValidBooking(booking)) {
             bookingService.saveBooking(booking);
             model.addAttribute("booking", booking);
@@ -42,5 +41,10 @@ public class BookingController {
     @GetMapping("/contact")
     public String contact(Model model) {
         return "contact";
+    }
+
+    @GetMapping("/services")
+    public String services(Model model) {
+        return "services";
     }
 }
